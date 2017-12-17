@@ -124,7 +124,7 @@ MAIN_PAGE_CONTENT = '''
 '''
 
 
-# A single movie entry html template
+# A single movie entry html template (so-called _verbose_ regex)
 MOVIE_TILE_CONTENT = '''
 <div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
     <img src="{poster_image_url}" width="220" height="342">
@@ -132,11 +132,19 @@ MOVIE_TILE_CONTENT = '''
 </div>
 '''
 
+# The (verbose) regex to extract the movie trailer Youtube ID from the given URL
+YOUTUBE_ID_RE = r'''(?<=\?v=|be/) # text to search must be preceded by either
+                                  # "?v=" or "be/"
+                    (?P<trailer_youtube_id>[^&#]+)
+                                  # one or more characters, anything other than
+                                  # "&" and "#" ...
+                                  # and name it "trailer_youtube_id"'''
+
 
 def create_movie_tiles_content(movies):
     """Create the HTML content for all movie tiles.
 
-    Paramters:
+    Parameters:
     movies: an iterable of Movie instances
 
     each Movie instance should contain at least the following items:
@@ -146,17 +154,14 @@ def create_movie_tiles_content(movies):
 
     It returns the HTML content displaying the movie tiles.
     """
-    
+
+    regex = re.compile(YOUTUBE_ID_RE, re.VERBOSE)
     # The HTML content for this section of the page
     content = ''
     for movie in movies:
         # Extract the youtube ID from the url
-        youtube_id_match = re.search(
-            r'(?<=v=)[^&#]+', movie.trailer_youtube_url)
-        youtube_id_match = youtube_id_match or re.search(
-            r'(?<=be/)[^&#]+', movie.trailer_youtube_url)
-        trailer_youtube_id = (youtube_id_match.group(0) if youtube_id_match
-                              else None)
+        youtube_id_match = regex.search(movie.trailer_youtube_url)
+        trailer_youtube_id = youtube_id_match.group('trailer_youtube_id')
 
         # Append the tile for the movie with its content filled in
         content += MOVIE_TILE_CONTENT.format(
