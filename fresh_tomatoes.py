@@ -156,20 +156,21 @@ def create_movie_tiles_content(movies):
     """
 
     regex = re.compile(YOUTUBE_ID_RE, re.VERBOSE)
-    # The HTML content for this section of the page
-    content = ''
+    # Collect the HTML content in a list of strings
+    content = list()
     for movie in movies:
         # Extract the youtube ID from the url
         youtube_id_match = regex.search(movie.trailer_youtube_url)
         trailer_youtube_id = youtube_id_match.group('trailer_youtube_id')
 
         # Append the tile for the movie with its content filled in
-        content += MOVIE_TILE_CONTENT.format(
+        content.append(MOVIE_TILE_CONTENT.format(
             movie_title=movie.title,
             poster_image_url=movie.poster_image_url,
-            trailer_youtube_id=trailer_youtube_id
-        )
-    return content
+            trailer_youtube_id=trailer_youtube_id))
+
+    # Now join all the parts together and return it
+    return ''.join(content)
 
 
 def open_movies_page(movies):
@@ -179,15 +180,12 @@ def open_movies_page(movies):
     See also the description of the create_movie_tiles_content function.
     """
     
-    output_file = open('fresh_tomatoes.html', 'w')
-
-    # Replace the movie tiles placeholder generated content
-    rendered_content = MAIN_PAGE_CONTENT.format(
-        movie_tiles=create_movie_tiles_content(movies))
-
-    # Output the file
-    output_file.write(MAIN_PAGE_HEAD + rendered_content)
-    output_file.close()
+    with open('fresh_tomatoes.html', 'w') as output_file:
+        # Replace the movie tiles placeholder generated content
+        rendered_content = MAIN_PAGE_CONTENT.format(
+            movie_tiles=create_movie_tiles_content(movies))
+        # Output the file
+        output_file.write(MAIN_PAGE_HEAD + rendered_content)
 
     # open the output file in the browser (in a new tab, if possible)
     url = os.path.abspath(output_file.name)
