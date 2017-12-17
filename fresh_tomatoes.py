@@ -147,7 +147,7 @@ def create_movie_tiles_content(movies):
     Parameters:
     movies: an iterable of Movie instances
 
-    each Movie instance should contain at least the following items:
+    each Movie instance should contain at least the following attributes:
     * movie_title: the title of the movie
     * poster_image_url: a URL pointing to movie's the poster image
     * trailer_youtube_url: a URL pointing to the movie's Youtube trailer
@@ -174,9 +174,9 @@ def create_movie_tiles_content(movies):
 
 
 def open_movies_page(movies):
-    """Create (or overwrite) an htnl file displaying all the movie tiles.
+    """Create (or overwrite) an html file displaying all the movie tiles.
 
-    It takes a list of movies that serves as input for the rendering.
+    It takes a list of Movie instances that serves as input for the rendering.
     See also the description of the create_movie_tiles_content function.
     """
     
