@@ -124,7 +124,7 @@ MAIN_PAGE_CONTENT = '''
 '''
 
 
-# A single movie entry html template (so-called _verbose_ regex)
+# A single movie entry html template
 MOVIE_TILE_CONTENT = '''
 <div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
     <img src="{poster_image_url}" width="220" height="342">
@@ -132,13 +132,13 @@ MOVIE_TILE_CONTENT = '''
 </div>
 '''
 
-# The (verbose) regex to extract the movie trailer Youtube ID from the given URL
-YOUTUBE_ID_RE = r'''(?<=\?v=|be/) # text to search must be preceded by either
-                                  # "?v=" or "be/"
+# The (verbose) regex to extract the movie trailer Youtube ID from a URL
+YOUTUBE_ID_RE = r'''(v=|be/)      # text to search must be preceded by either
+                                  # "v=" or "be/"
                     (?P<trailer_youtube_id>[^&#]+)
                                   # one or more characters, anything other than
                                   # "&" and "#" ...
-                                  # and name it "trailer_youtube_id"'''
+                                  # accessible under "trailer_youtube_id"'''
 
 
 def create_movie_tiles_content(movies):
