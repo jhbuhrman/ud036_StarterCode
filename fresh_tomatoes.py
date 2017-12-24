@@ -19,7 +19,7 @@ MAIN_PAGE_HEAD = '''
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap-theme.min.css">
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.m`in.js"></script>
     <style type="text/css" media="screen">
         body {
             padding-top: 80px;
@@ -87,7 +87,7 @@ MAIN_PAGE_HEAD = '''
         });
     </script>
 </head>
-'''
+'''  # NOQA
 
 
 # The main page layout and title bar
@@ -121,7 +121,7 @@ MAIN_PAGE_CONTENT = '''
     </div>
   </body>
 </html>
-'''
+'''  # NOQA
 
 
 # A single movie entry html template
@@ -130,7 +130,7 @@ MOVIE_TILE_CONTENT = '''
     <img src="{poster_image_url}" width="220" height="342">
     <h2>{movie_title}</h2>
 </div>
-'''
+'''  # NOQA
 
 # The (verbose) regex to extract the movie trailer Youtube ID from a URL
 YOUTUBE_ID_RE = r'''(v=|be/)      # text to search must be preceded by either
@@ -179,7 +179,7 @@ def open_movies_page(movies):
     It takes a list of Movie instances that serves as input for the rendering.
     See also the description of the create_movie_tiles_content function.
     """
-    
+
     with open('fresh_tomatoes.html', 'w') as output_file:
         # Replace the movie tiles placeholder generated content
         rendered_content = MAIN_PAGE_CONTENT.format(
